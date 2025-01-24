@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+     body {
+      margin: 0;
+      background: radial-gradient(circle, #0d1b2a, #1b263b, #415a77); /* Cosmic gradient */
+      font-family: 'Dancing Script', cursive; /* Romantic font */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Behind the content */
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      overflow: hidden;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.2); /* Semi-transparent container */
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .letter {
+      font-size: 1.8rem; /* Start with a larger font size */
+      line-height: 1.6;
+      font-family: 'Roboto', sans-serif; /* Clean and readable font */
+      color: #ffffff; /* White font to contrast with the background */
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      text-align: left;
+      transition: font-size 0.2s ease-in-out; /* Smooth shrinking effect */
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 90%; /* Expand width for smaller devices */
+        padding: 15px;
+      }
+
+      .letter {
+        font-size: 1.2rem; /* Reduce font size for readability */
+        line-height: 1.4;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 10px; /* Minimal padding for very small screens */
+      }
+
+      .letter {
+        font-size: 1rem; /* Even smaller font size for compact screens */
+        line-height: 1.3;
+      }
+    }
+</style>
+<body>
+    <!--Edit CSS for letter to start on the top left of the container instead of sliding left --->
+
+<canvas class="stars"></canvas> <!-- Dynamic stars -->
+<div class="container">
+  <div class="letter" id="loveLetter"></div>
+</div>
+<script>
+       const loveLetter = `
+My Dearest,
+
+In the endless cosmos, I am pulled toward you—a binary star caught in an infinite dance, bound by forces neither seen nor spoken but undeniably real. I refuse to drift aimlessly. I will chase your light, breaking through the void, until our paths meet once more.
+
+We are not mere star-crossed figures, resigned to separation. This distance is only a challenge—a boundary meant to be crossed, a test of how far I am willing to go. I will push against the darkness, bend time, and defy the universe itself if it means reaching you. This is not a question of fate; it’s a declaration of intent.
+
+Even now, your light reaches me, guiding my every move, igniting the fire that drives me forward. Across the great divide, I feel your pull, your presence. Will we meet again? Not by chance or luck—but because I will not stop until we do.
+
+You are my North Star, my constant, my infinite "what if." And I will move heaven and earth to find you in this lifetime or the next.
+
+Forever yours,
+In this life and every one after,
+<3
+`;
+
+    const letterElement = document.getElementById("loveLetter");
+    let index = 0;
+    let fontSize = 1.8; // Initial font size in rem
+
+    function typeLetter() {
+      if (index < loveLetter.length) {
+        letterElement.innerHTML += loveLetter[index];
+        index++;
+
+        // Gradually shrink the font size as the content grows
+        if (index > loveLetter.length * 0.3) {
+          fontSize -= 0.002; // Shrink rate (adjust for smoother transition)
+          letterElement.style.fontSize = `${Math.max(fontSize, 1)}rem`; // Prevent shrinking below 1rem
+        }
+
+        setTimeout(typeLetter, 50); // Typing speed
+      }
+    }
+
+    typeLetter();
+
+    // Generate Stars
+    const canvas = document.querySelector('.stars');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function drawStars() {
+      const numStars = 200; // Number of stars
+      for (let i = 0; i < numStars; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = Math.random() * 2;
+        const brightness = Math.random() * 0.8 + 0.2;
+
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+        ctx.fill();
+      }
+    }
+
+    drawStars();
+
+    // Twinkling Effect
+    function twinkleStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawStars();
+    }
+
+    setInterval(twinkleStars, 1000); // Stars "twinkle" every second
+
+    // Resize canvas on window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawStars();
+    });
+</script>
+</body>
+</html>
